@@ -1,11 +1,17 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.OpenApi.Models; // Adicione esta linha
+using Microsoft.OpenApi.Models;
+using Microsoft.EntityFrameworkCore;
+using Tarefa.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Adicione serviços ao contêiner.
+builder.Services.AddDbContext<DataContext>(options =>
+    options.UseSqlite(builder.Configuration.GetConnectionString("Default"))
+);
+
 builder.Services.AddControllers();
 builder.Services.AddSwaggerGen(c =>
 {
